@@ -27,3 +27,4 @@ main theme는 모든 멤버가 동일한 주제를 해결해 나가게 됩니다
 ## Sub theme
 Sub project를 고민해보고 생성합니다.
 * [translation-sieve](/hephaistus/sub-theme/translation-sieve/README.md)
+* [image-uniquify](/hephaistus/sub-theme/image-uniquify/README.md)
