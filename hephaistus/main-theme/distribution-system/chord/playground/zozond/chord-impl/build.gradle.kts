@@ -23,6 +23,6 @@ kotlin {
     jvmToolchain(17)
 }
 
-application {
-    mainClass.set("MainKt")
-}
+// application {
+//    mainClass.set("MainKt")
+// }
