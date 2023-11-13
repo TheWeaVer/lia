@@ -1,7 +1,8 @@
 .gradle
 settings.gradle.kts
 build/
-gradle/wrapper/gradle-wrapper.jar
+**/gradle/wrapper/gradle-wrapper.jar
+**/settings.gradle.kts
 **/src/main/**/Main.kt
 !**/src/main/**/build/
 !**/src/test/**/build/
