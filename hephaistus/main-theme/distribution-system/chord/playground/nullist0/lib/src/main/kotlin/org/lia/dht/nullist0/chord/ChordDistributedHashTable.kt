@@ -1,18 +1,30 @@
 package org.lia.dht.nullist0.chord
 
+import kotlinx.coroutines.*
 import org.lia.dht.nullist0.DistributedHashTable
 import org.lia.dht.nullist0.chord.model.ChordNode
+import kotlin.time.Duration
 
 /**
  * An implementation of [DistributedHashTable] for CHORD algorithm.
  */
 internal class ChordDistributedHashTable<K, V>(
     private val chordNode: ChordNode,
-    private val repository: ChordRepository<Int, V>
+    private val repository: ChordRepository<Int, V>,
+    private val coroutineScope: CoroutineScope,
+    private val repeatDuration: Duration
 ): DistributedHashTable<K, V> {
     private var finger: List<ChordNode> = emptyList()
     private var successor: ChordNode = chordNode
     private var predecessorOrNull: ChordNode? = null
+    private val stabilizationJob: Job = coroutineScope.launch {
+        while (isActive) {
+            stabilize()
+            fixFingers()
+            checkPredecessor()
+            delay(repeatDuration)
+        }
+    }
 
     override fun get(key: K): V {
         val node = repository.findSuccessor(chordNode, successor, finger, key.toId())
