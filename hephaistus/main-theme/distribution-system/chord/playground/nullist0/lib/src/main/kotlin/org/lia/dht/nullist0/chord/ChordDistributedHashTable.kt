@@ -3,6 +3,7 @@ package org.lia.dht.nullist0.chord
 import kotlinx.coroutines.*
 import org.lia.dht.nullist0.DistributedHashTable
 import org.lia.dht.nullist0.chord.model.ChordNode
+import java.io.Closeable
 import kotlin.time.Duration
 
 /**
@@ -13,7 +14,7 @@ internal class ChordDistributedHashTable<K, V>(
     private val repository: ChordRepository<Int, V>,
     private val coroutineScope: CoroutineScope,
     private val repeatDuration: Duration
-): DistributedHashTable<K, V> {
+): DistributedHashTable<K, V>, Closeable {
     private var finger: List<ChordNode> = emptyList()
     private var successor: ChordNode = chordNode
     private var predecessorOrNull: ChordNode? = null
@@ -59,6 +60,10 @@ internal class ChordDistributedHashTable<K, V>(
         if (node.toId() in ringRange) {
             predecessorOrNull = node
         }
+    }
+
+    override fun close() {
+        runBlocking { stabilizationJob.cancelAndJoin() }
     }
 
     private fun checkPredecessor() {
