@@ -10,10 +10,10 @@ import kotlin.time.Duration
  * An implementation of [DistributedHashTable] for CHORD algorithm.
  */
 internal class ChordDistributedHashTable<K, V>(
-    private val chordNode: ChordNode,
-    private val repository: ChordRepository<Int, V>,
-    private val coroutineScope: CoroutineScope,
-    private val repeatDuration: Duration
+        private val chordNode: ChordNode,
+        private val repository: ChordProtocol<Int, V>,
+        private val coroutineScope: CoroutineScope,
+        private val repeatDuration: Duration
 ): DistributedHashTable<K, V>, Closeable {
     private var finger: List<ChordNode> = emptyList()
     private var successor: ChordNode = chordNode

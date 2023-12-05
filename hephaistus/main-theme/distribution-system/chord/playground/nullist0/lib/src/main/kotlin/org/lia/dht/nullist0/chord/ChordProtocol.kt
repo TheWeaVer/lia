@@ -6,7 +6,7 @@ import org.lia.dht.nullist0.chord.model.ChordNode
  * TODO: Make ID be concrete. In Chord, the ID of chord ring can be represented with other functionalities,
  *  like hashable property.
  */
-interface ChordRepository<ID, Value> {
+interface ChordProtocol<ID, Value> {
     fun getValue(id: ID, from: ChordNode): Value
 
     fun putValue(id: ID, value: Value, to: ChordNode)
