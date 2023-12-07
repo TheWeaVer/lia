@@ -1,4 +1,4 @@
-class ChordNode(address: String): Node{
+class ChordNode(address: String) : Node {
     val id: String
 
     private val address: String
@@ -27,7 +27,7 @@ class ChordNode(address: String): Node{
 
         // 2. 만약 핑거 테이블 안에 저장된 노드들의 ID에 없다면 전임자를 찾아 요청한다
         val n0 = closestPrecedingNode(id)
-        if(n0 == successor){
+        if (n0 == successor) {
             return successor
         }
         return n0.findSuccessor(id)
@@ -42,8 +42,8 @@ class ChordNode(address: String): Node{
         return this
     }
 
-    override fun leave(id: String){
-        for (node in finger){
+    override fun leave(id: String) {
+        for (node in finger) {
             node.leave(id)
         }
         finger.removeIf { it -> it.id == id }

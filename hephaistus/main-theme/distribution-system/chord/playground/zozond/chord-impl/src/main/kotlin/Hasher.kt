@@ -1,9 +1,10 @@
 import java.security.MessageDigest
 
+private val digest = MessageDigest.getInstance("SHA-1")
+
 class Hasher {
 
     companion object {
-        private val digest = MessageDigest.getInstance("SHA-1")
 
         fun getHashCode(key: String): String{
             return digest.digest(key.toByteArray()).toString()
