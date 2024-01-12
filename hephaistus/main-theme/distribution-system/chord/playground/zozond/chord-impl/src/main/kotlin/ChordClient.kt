@@ -12,8 +12,13 @@ class ChordClient(private val currentNode: ChordNode) {
         println("${currentNode.id} > ${knownNode.id} has joined the ring.")
     }
 
-    fun findSuccessor(identifier: Int): ChordNode {
-        return currentNode.findSuccessor(identifier)
+    fun findSuccessor(identifier: Int): ChordNode? {
+        val result = currentNode.findSuccessor(identifier, currentNode.id)
+        return if (result == currentNode) {
+            null
+        } else {
+            result
+        }
     }
 
     fun stabilize() {
@@ -39,4 +44,5 @@ class ChordClient(private val currentNode: ChordNode) {
     fun getNode(): ChordNode {
         return this.currentNode
     }
+
 }
