@@ -58,9 +58,9 @@ internal class ChordDistributedHashTable<Id, Value> private constructor(
     private fun closestPrecedingNode(id: Id): AbstractChordNode<Id, Value> = with(chordScope) {
         val nodeId = mutableChordNode.toId()
         val closestNodeOrNull = mutableChordNode
-                .fingers
-                .filterNotNull()
-                .lastOrNull { it.toId() inOpenInterval (nodeId to id) }
+            .fingers
+            .filterNotNull()
+            .lastOrNull { it.toId() inOpenInterval (nodeId to id) }
         return closestNodeOrNull ?: mutableChordNode
     }
 
@@ -87,8 +87,7 @@ internal class ChordDistributedHashTable<Id, Value> private constructor(
 
     private fun checkPredecessor() {
         val predecessorOrNull = mutableChordNode.predecessorOrNull
-        mutableChordNode.predecessorOrNull =
-            predecessorOrNull?.takeIf { !protocol.healthCheck(it) }
+        mutableChordNode.predecessorOrNull = predecessorOrNull?.takeIf { !protocol.healthCheck(it) }
     }
 
     private infix fun Id.inOpenInterval(pair: Pair<Id, Id>): Boolean = with(chordScope) {
@@ -143,10 +142,10 @@ internal class ChordDistributedHashTable<Id, Value> private constructor(
             repeatDuration: Duration = DEFAULT_REPEAT_DURATION
         ): DistributedHashTable<Id, Value> {
             val chordNode = MutableChordNode<Id, Value>(
-                    uri = URI.create("localhost:$port"),
-                    successorOrNull = null,
-                    predecessorOrNull = null,
-                    chordRingSizeInBit = chordScope.bitSize()
+                uri = URI.create("localhost:$port"),
+                successorOrNull = null,
+                predecessorOrNull = null,
+                chordRingSizeInBit = chordScope.bitSize()
             ).apply { successorOrNull = toChordNode() }
             return ChordDistributedHashTable(
                 chordNode,
