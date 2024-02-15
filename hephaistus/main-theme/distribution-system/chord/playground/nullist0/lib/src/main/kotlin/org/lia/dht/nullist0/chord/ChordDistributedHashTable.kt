@@ -90,15 +90,6 @@ internal class ChordDistributedHashTable<Id, Value> private constructor(
         mutableChordNode.predecessorOrNull = predecessorOrNull?.takeIf { !protocol.healthCheck(it) }
     }
 
-    private infix fun Id.inOpenInterval(pair: Pair<Id, Id>): Boolean = with(chordScope) {
-        val id = this@inOpenInterval
-        pair.first < id && id < pair.second
-    }
-
-    private infix fun Id.inOpenCloseInterval(pair: Pair<Id, Id>): Boolean = with(chordScope) {
-        val id = this@inOpenCloseInterval
-        pair.first < id && id <= pair.second
-    }
     companion object {
         private val DEFAULT_REPEAT_DURATION = 1.seconds
 
