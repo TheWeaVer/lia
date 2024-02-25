@@ -3,8 +3,8 @@ package org.lia.dht.nullist0.chord.model
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class ChordScopeTest {
-    private val scope = TestChordScope()
+class ChordIdentifierScopeTest {
+    private val scope = TestChordIdentifierScope()
 
     @Test
     fun testOpenIntervals() {
@@ -46,7 +46,7 @@ class ChordScopeTest {
         }
     }
 
-    class TestChordScope: ChordScope<Int, Int>() {
+    class TestChordIdentifierScope: ChordIdentifierScope<Int, Int>() {
         override fun AbstractChordNode<Int, Int>.toId(): Int  = error("Not supported")
         override fun Int.toId(): Int  = error("Not supported")
         override fun bitSize(): Int  = error("Not supported")

@@ -1,9 +1,19 @@
 package org.lia.dht.nullist0.chord.model
 
 /**
- * An abstract class to build identifier of Chord Ring.
+ * An abstract class to build or evaluate the identifier of chord ring. This will provide the context about
+ * identifier of chord ring. There are functionalities like [compareTo], [plus] or, [toId] with [Id].
+ *
+ * ```kotlin
+ * val scope: ChordIdentifier = // ..
+ * with(scope) {
+ *     id + otherId
+ *     id < otherId
+ *     // do something with ids.
+ * }
+ * ```
  */
-abstract class ChordScope<Id, Value> {
+abstract class ChordIdentifierScope<Id, Value> {
     abstract fun AbstractChordNode<Id, Value>.toId(): Id
 
     abstract fun bitSize(): Int
