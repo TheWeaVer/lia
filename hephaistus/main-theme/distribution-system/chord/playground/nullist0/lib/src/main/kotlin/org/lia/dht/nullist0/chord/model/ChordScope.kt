@@ -25,13 +25,13 @@ abstract class ChordScope<Id, Value> {
 
     infix fun Id.inOpenInterval(pair: Pair<Id, Id>): Boolean  {
         val id = this@inOpenInterval
-        val (start, end) = if (pair.first < pair.second) pair else pair.second to pair.first
-        return start < id && id < end
+        val (start, end) = pair
+        return if (start <= end) start < id && id < end else id < end || start < id
     }
 
     infix fun Id.inOpenCloseInterval(pair: Pair<Id, Id>): Boolean {
         val id = this@inOpenCloseInterval
-        val (start, end) = if (pair.first < pair.second) pair else pair.second to pair.first
-        return start < id && id <= end
+        val (start, end) = pair
+        return if (start <= end) start < id && id <= end else id <= end || start < id
     }
 }
