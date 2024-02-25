@@ -1,7 +1,7 @@
 package org.lia.dht.nullist0.chord.model
 
 /**
- * An interface to build identifier of Chord Ring.
+ * An abstract class to build identifier of Chord Ring.
  */
 abstract class ChordScope<Id, Value> {
     abstract fun AbstractChordNode<Id, Value>.toId(): Id
