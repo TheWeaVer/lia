@@ -1,6 +1,6 @@
-package org.example.implement
+package org.example.impl
 
-import org.example.`interface`.DataStorage
+import org.example.interfaces.DataStorage
 
 class InMemoryDataStorage : DataStorage {
     private val storage = mutableMapOf<String, String>()

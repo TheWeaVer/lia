@@ -1,4 +1,4 @@
-package org.example.`interface`
+package org.example.interfaces
 
 interface DataStorage {
     fun put(key: String, value: String): Boolean
