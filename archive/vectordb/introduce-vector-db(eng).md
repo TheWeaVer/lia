@@ -2,7 +2,7 @@
 
 ## Why is vector search important in a search system?
 
-- To Provide similarity search, especially among Advanced Search Features
+- To Provide similarity search, especially among advanced search features
 
 ## Why is similarity search important?
 
@@ -13,19 +13,19 @@
 
 ## What is Vector?
 
-- Vectors are used to represent points in space and can have multiple dimensions.
+- Vector is used to represent points in space and can have multiple dimensions.
 - Transforming text, images, videos, etc. into high-dimensional vectors for understanding.
-- The transformation process usually uses machine learning algorithms such as deep learning models
+- The transformation process usually uses machine learning algorithms.
 
 ## What is Vector DB?
 
-- A database that can store, manage, and retrieve high-dimensional vectors.
-- Vector DB optimizes for similarity search.
+- Vector DB that can store, manage, and retrieve high-dimensional vectors.
+- Vector DB optimizes for similar vectors.
 
 ## Why Vector DB is needed
 
-- Real-time similarity searches on large datasets require special skills.
-- Traditional database systems are not optimized for this type of search
+- Real-time similarity searches on large datasets require special technology.
+- Traditional database systems are not optimized for vector search.
 
 ## How Vector DB Works and Key Features
 
@@ -35,11 +35,11 @@
   - ex) Approximate Nearest Neighbor(ANN)
 - Search for similarity
   - When the user provides a query vector, the Vector DB quickly finds the vectors most similar to this query vector among the stored vectors.
-  - This process can be performed by ANN search algorithms, and similar items can be found on large datasets at very high speeds.
+  - This process can be performed by special search algorithms, such as ANN, and similar items can be found on large datasets at very high speeds.
 - Data segmentation and distribution processing
-  - To effectively manage large vector datasets, Vector DB can split and store data across multiple nodes
+  - To effectively manage large vector datasets, Vector DB can split and store data across multiple nodes.
 - Provides intuitive API
-  - Most Vector DBs provide intuitive APIs that make it easy for users to insert, query, and modify data
+  - Most Vector DBs provide intuitive APIs that make it easy for users to insert, query, and modify data.
   - Developers can easily implement interactions between applications and Vector DB using this API
 
 ### **Vector Data Processing Process**
@@ -71,7 +71,7 @@
   - Performance and scalability are critical considerations when large amounts of data and high-speed processing are required.
 - Maintenance and Support
   - Consider community support and document quality when choosing an open source solution
-  - Review technical support and service level agreements (SLA) when considering commercial solutions
+  - Review technical support and service level agreements (SLA) when considering commercial solutions.
 - Data security and privacy
   - You must comply with data security and privacy regulations when processing user data.
   - It is important to ensure that the Vector DB solution you select meets these requirements.
