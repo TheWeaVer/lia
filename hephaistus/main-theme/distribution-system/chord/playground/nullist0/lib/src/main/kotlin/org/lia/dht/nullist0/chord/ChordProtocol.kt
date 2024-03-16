@@ -1,6 +1,6 @@
 package org.lia.dht.nullist0.chord
 
-import org.lia.dht.nullist0.chord.model.AbstractChordNode
+import org.lia.dht.nullist0.chord.model.ChordNode
 
 /**
  * An interface to provide the protocols for Chord DHT, saying Chord Ring.
@@ -9,15 +9,15 @@ import org.lia.dht.nullist0.chord.model.AbstractChordNode
  *  like hashable property.
  */
 interface ChordProtocol<Id, Value> {
-    fun putValue(to: AbstractChordNode<Id, Value>, id: Id, value: Value)
+    fun putValue(to: ChordNode<Id>, id: Id, value: Value)
 
-    fun getValue(to: AbstractChordNode<Id, Value>, id: Id): Value
+    fun getValue(to: ChordNode<Id>, id: Id): Value
 
-    fun notify(from: AbstractChordNode<Id, Value>, to: AbstractChordNode<Id, Value>)
+    fun notify(from: ChordNode<Id>, to: ChordNode<Id>)
 
-    fun findSuccessorNode(via: AbstractChordNode<Id, Value>, id: Id): AbstractChordNode<Id, Value>
+    fun findSuccessorNode(via: ChordNode<Id>, id: Id): ChordNode.NetworkNode<Id>
 
-    fun findNode(node: AbstractChordNode<Id, Value>): AbstractChordNode<Id, Value>
+    fun findNode(node: ChordNode<Id>): ChordNode.NetworkNode<Id>
 
-    fun healthCheck(to: AbstractChordNode<Id, Value>): Boolean
+    fun healthCheck(to: ChordNode<Id>): Boolean
 }

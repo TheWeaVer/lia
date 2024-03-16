@@ -2,10 +2,8 @@ package org.lia.dht.nullist0.chord
 
 import kotlinx.coroutines.*
 import org.lia.dht.nullist0.DistributedHashTable
-import org.lia.dht.nullist0.chord.model.AbstractChordNode
-import org.lia.dht.nullist0.chord.model.AbstractChordNode.ChordNode
-import org.lia.dht.nullist0.chord.model.AbstractChordNode.MutableChordNode
 import org.lia.dht.nullist0.chord.model.ChordIdentifierScope
+import org.lia.dht.nullist0.chord.model.ChordNode
 import java.io.Closeable
 import java.net.URI
 import kotlin.coroutines.EmptyCoroutineContext
@@ -17,17 +15,18 @@ import kotlin.time.Duration.Companion.seconds
  * An implementation of [DistributedHashTable] for CHORD algorithm.
  */
 internal class ChordDistributedHashTable<Id, Value> private constructor(
-        private val mutableChordNode: MutableChordNode<Id, Value>,
-        private val chordIdentifierScope: ChordIdentifierScope<Id, Value>,
-        private val protocol: ChordProtocol<Id, Value>,
-        coroutineScope: CoroutineScope,
-        private val repeatDuration: Duration
+    private val chordNode: ChordNode.NetworkNode<Id>,
+    private val chordIdentifierScope: ChordIdentifierScope<Id, Value>,
+    private val protocol: ChordProtocol<Id, Value>,
+    coroutineScope: CoroutineScope,
+    private val repeatDuration: Duration
 ): DistributedHashTable<Id, Value>, Closeable {
     private val stabilizationJob: Job = coroutineScope.launch {
+        val bitSize = chordIdentifierScope.bitSize()
         var nextFingerToFix = -1
         while (isActive) {
             stabilize()
-            nextFingerToFix = (nextFingerToFix + 1) % mutableChordNode.chordRingSizeInBit
+            nextFingerToFix = (nextFingerToFix + 1) % bitSize
             fixFingers(nextFingerToFix)
             checkPredecessor()
             delay(repeatDuration)
@@ -44,41 +43,49 @@ internal class ChordDistributedHashTable<Id, Value> private constructor(
         protocol.putValue(node, key, value)
     }
 
-    private fun findSuccessor(id: Id): AbstractChordNode<Id, Value> = with(chordIdentifierScope) {
-        val successor = requireNotNull(mutableChordNode.successorOrNull)
-        val nodeId = mutableChordNode.toId()
+    private fun findSuccessor(id: Id): ChordNode.NetworkNode<Id> = with(chordIdentifierScope) {
+        val successor = chordNode.successor
+        val nodeId = chordNode.toId()
         val successorId = successor.toId()
         return if (id inOpenCloseInterval (nodeId to successorId)) {
-            successor
+            successor as ChordNode.NetworkNode<Id>
         } else {
             protocol.findSuccessorNode(closestPrecedingNode(id), id)
         }
     }
 
-    private fun closestPrecedingNode(id: Id): AbstractChordNode<Id, Value> = with(chordIdentifierScope) {
-        val nodeId = mutableChordNode.toId()
-        val closestNodeOrNull = mutableChordNode
+    private fun closestPrecedingNode(id: Id): ChordNode<Id> = with(chordIdentifierScope) {
+        val nodeId = chordNode.toId()
+        val closestNodeOrNull = chordNode
             .fingers
-            .filterNotNull()
             .lastOrNull { it.toId() inOpenInterval (nodeId to id) }
-        return closestNodeOrNull ?: mutableChordNode
+        return closestNodeOrNull ?: chordNode
     }
 
     private fun stabilize() = with(chordIdentifierScope) {
-        val successorFromProtocol = protocol.findNode(requireNotNull(mutableChordNode.successorOrNull))
-        val predecessorOfSuccessor = protocol.findNode(requireNotNull(successorFromProtocol.predecessorOrNull))
-        val nodeId = mutableChordNode.toId()
+        val successorFromProtocol = protocol.findNode(chordNode.successor)
+        val predecessorOfSuccessor = protocol.findNode(successorFromProtocol.predecessor)
+        val nodeId = chordNode.toId()
         val successorId = successorFromProtocol.toId()
         if (predecessorOfSuccessor.toId() inOpenInterval (nodeId to successorId)) {
-            mutableChordNode.successorOrNull = predecessorOfSuccessor.toChordNode()
+            // TODO: Handle to use new node class object
+            val newNode = chordNode.copy(
+                successor = predecessorOfSuccessor
+            )
         }
-        protocol.notify(mutableChordNode, predecessorOfSuccessor)
+        protocol.notify(chordNode, predecessorOfSuccessor)
     }
 
     private fun fixFingers(pow: Int) = with(chordIdentifierScope) {
-        val id = mutableChordNode.toId() + (2.0.pow(pow.toDouble()).toInt()).toId()
-        val finger = findSuccessor(id).toChordNode()
-        mutableChordNode.fixFinger(pow, finger)
+        val id = chordNode.toId() + (2.0.pow(pow.toDouble()).toInt()).toId()
+        val finger = findSuccessor(id)
+        // TODO: Handle to use new node class object
+        val newNode = chordNode.copy(
+            fingers = chordNode.fingers
+                .toMutableList()
+                .apply { this[pow] = finger }
+                .toList()
+        )
     }
 
     override fun close() {
@@ -86,8 +93,11 @@ internal class ChordDistributedHashTable<Id, Value> private constructor(
     }
 
     private fun checkPredecessor() {
-        val predecessorOrNull = mutableChordNode.predecessorOrNull
-        mutableChordNode.predecessorOrNull = predecessorOrNull?.takeIf { !protocol.healthCheck(it) }
+        val predecessor = chordNode.predecessor
+        // TODO: Handle to use new node class object
+        val newNode = chordNode.copy(
+            predecessor = predecessor.takeIf { !protocol.healthCheck(it) } ?: ChordNode.InvalidChordNode()
+        )
     }
 
     companion object {
@@ -101,21 +111,15 @@ internal class ChordDistributedHashTable<Id, Value> private constructor(
                 coroutineScope: CoroutineScope = CoroutineScope(EmptyCoroutineContext),
                 repeatDuration: Duration = DEFAULT_REPEAT_DURATION
         ): DistributedHashTable<Id, Value> {
-            val chordNode = MutableChordNode<Id, Value>(
-                uri = URI.create("localhost:$port"),
-                successorOrNull = null,
-                predecessorOrNull = null,
-                chordRingSizeInBit = chordIdentifierScope.bitSize()
-            ).apply {
-                val target = ChordNode<Id, Value>(
-                    uri = uri,
-                    successorOrNull = null,
-                    predecessorOrNull = null
-                )
-                successorOrNull = with(chordIdentifierScope) {
-                    chordProtocol.findSuccessorNode(target, toId()).toChordNode()
+            val chordNode = ChordNode.NetworkNode(
+                uri = "localhost:$port",
+                successor = with(chordIdentifierScope) {
+                    chordProtocol.findSuccessorNode(
+                        ChordNode.NetworkNode(uri = uri.path),
+                        ChordNode.NetworkNode<Id>(uri = "localhost:$port").toId()
+                    )
                 }
-            }
+            )
             return ChordDistributedHashTable(
                 chordNode,
                 chordIdentifierScope,
@@ -132,12 +136,12 @@ internal class ChordDistributedHashTable<Id, Value> private constructor(
                 coroutineScope: CoroutineScope = CoroutineScope(EmptyCoroutineContext),
                 repeatDuration: Duration = DEFAULT_REPEAT_DURATION
         ): DistributedHashTable<Id, Value> {
-            val chordNode = MutableChordNode<Id, Value>(
-                uri = URI.create("localhost:$port"),
-                successorOrNull = null,
-                predecessorOrNull = null,
-                chordRingSizeInBit = chordIdentifierScope.bitSize()
-            ).apply { successorOrNull = toChordNode() }
+            val chordNode = ChordNode.NetworkNode<Id>(
+                uri = "localhost:$port",
+                successor = ChordNode.NetworkNode(
+                    uri = "localhost:$port"
+                )
+            )
             return ChordDistributedHashTable(
                 chordNode,
                 chordIdentifierScope,
