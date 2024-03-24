@@ -13,8 +13,15 @@ sealed class ChordNode<Id> {
         val uri: String,
         val successor: ChordNode<Id> = InvalidChordNode(),
         val predecessor: ChordNode<Id> = InvalidChordNode(),
-        val fingers: List<NetworkNode<Id>> = emptyList()
-    ): ChordNode<Id>()
+        val fingers: List<ChordNode<Id>> = emptyList()
+    ): ChordNode<Id>() {
+        override fun equals(other: Any?): Boolean {
+            if (other !is NetworkNode<*>) return false
+            return other.uri == uri
+        }
+
+        override fun hashCode(): Int = uri.hashCode()
+    }
 
     /**
      * A class to represent data node of chord ring.
