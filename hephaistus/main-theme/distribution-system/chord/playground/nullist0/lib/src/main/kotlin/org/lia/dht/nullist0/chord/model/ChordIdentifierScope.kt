@@ -13,7 +13,7 @@ package org.lia.dht.nullist0.chord.model
  * }
  * ```
  */
-abstract class ChordIdentifierScope<Id, Value> {
+abstract class ChordIdentifierScope<Id> {
     abstract fun ChordNode<Id>.toId(): Id
 
     abstract fun bitSize(): Int
