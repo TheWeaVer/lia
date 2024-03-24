@@ -18,7 +18,7 @@ class ChordIdentifierScopeTest {
             (3 to (4 to 2)) to false,
             (4 to (4 to 2)) to false,
             (5 to (4 to 2)) to true
-        )
+        ).mapKeys { it.key.first.toUByte() to (it.key.second.first.toUByte() to it.key.second.second.toUByte()) }
 
         testCases.forEach { (v, pair), expected ->
             val value = with(scope) { v inOpenInterval pair }
@@ -38,7 +38,7 @@ class ChordIdentifierScopeTest {
             (3 to (4 to 2)) to false,
             (4 to (4 to 2)) to false,
             (5 to (4 to 2)) to true
-        )
+        ).mapKeys { it.key.first.toUByte() to (it.key.second.first.toUByte() to it.key.second.second.toUByte()) }
 
         testCases.forEach { (v, pair), expected ->
             val value = with(scope) { v inOpenCloseInterval pair }
