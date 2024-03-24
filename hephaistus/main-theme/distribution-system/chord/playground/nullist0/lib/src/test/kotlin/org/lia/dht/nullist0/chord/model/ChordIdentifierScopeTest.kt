@@ -46,7 +46,7 @@ class ChordIdentifierScopeTest {
         }
     }
 
-    class TestChordIdentifierScope: ChordIdentifierScope<Int, Int>() {
+    class TestChordIdentifierScope: ChordIdentifierScope<Int>() {
         override fun ChordNode<Int>.toId(): Int  = error("Not supported")
         override fun Int.toId(): Int  = error("Not supported")
         override fun bitSize(): Int  = error("Not supported")
