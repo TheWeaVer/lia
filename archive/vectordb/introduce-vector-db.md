@@ -86,3 +86,6 @@
   - **Select the appropriate indexing algorithm**: Select an indexing algorithm that fits the characteristics of the data and search requirements; indexing efficiency plays an important role in the speed of search and the scalability of the system.
 - Monitoring and Coordinating Performance
   - **Performance Monitoring**: Continuously monitor the performance of the system and track indicators such as search speed, accuracy, system load, etc. Identify the cause of the degradation and can improve.
+
+# references
+- https://www.pinecone.io/learn/vector-database/
