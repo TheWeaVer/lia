@@ -155,7 +155,7 @@ class FindSuccessorByIdTest {
         val successor = findSuccessorById(configuration)
 
         // then
-        assertEquals(stabilizedOtherNode, successor)
+        assertEquals(stabilizedOtherNode.uri, successor.uri)
     }
 
     companion object {
