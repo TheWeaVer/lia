@@ -23,6 +23,10 @@ One of the solution of NN problem is ANN. ANN is an approximated nearest neighbo
 
 ## Quantization
 
+A method of ANN is the quantization. The quantization is making a continuous space to a discrete space to make the space iterable. For more detail, let us take a real line $R$ to search a specific real value $x$. To find the exact value, we need to check whether the value is exact same with all uncountable number. But with the real line, we cannot iterate the values, because the next value of a real value is not defined. It will help us to find a value to separate the real line using some points. For example, we can separate the real line to the points of $0.1 * n$ with the integers $n$.
+
+With the quantization, we can make a uniformly distributed fashion like the above example, but it will be more better to make points to the specific points. The countable points of a vector space is not efficient for the all kind of datasets. How can we obtain the more better quantization on the vector space?
+
 ### Vector Quantization
 
 ### Product Quantization
