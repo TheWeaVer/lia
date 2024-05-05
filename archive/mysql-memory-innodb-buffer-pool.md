@@ -1,6 +1,6 @@
 # InnoDB Buffer pool
 
-The buffer pool is an area in main memory where `InnoDB` caches table and index dta as it is accessed.
+The buffer pool is an area in main memory where `InnoDB` caches table and index data as it is accessed.
 The buffer pool permits frequently used data to be accessed directly from memory, which speeds up processing.
 On dedicated servers, up to 80% of physical memory is often assigned to the buffer pool.
 
@@ -16,11 +16,13 @@ By the way, in this page, we focus on explaining the algorithm of buffer pool.
 
 ## Buffer Pool LRU algorithm
 
+This is the clone of https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool.html.
+
 The buffer pool is managed as a list using a variation of the LRU algorithm. When room is needed to add a new 
 page to the buffer pool, the least recently used page is evicted and a new page is added to the middle of the
 list. The midpoint insertion strategy treats the list as two sublists:
 * At the head, a sublist of new ("young") pages that were accessed recently
-* At the tail, a sublist of old pages that were access less recently
+* At the tail, a sublist of old pages that were accessed less recently
 
 The algorithm keeps frequently used pages in the new sublist. The old sublist contains less frequently used 
 pages; these pages are candidates for eviction.
@@ -45,9 +47,7 @@ pool longer. A table scan, performed for a mysqldump operation or a SELECT state
 example, can bring a large amount of data into the buffer pool and evict an equivalent amount of older data, 
 even if the new data is never used again. Similarly, pages that are loaded by the read-ahead background thread
 and accessed only once are moved to the head of the new list. These situations can push frequently used pages to
-the old sublist where they become subject to eviction. 
-
-This is the clone of https://dev.mysql.com/doc/refman/8.0/en/innodb-buffer-pool.html.
+the old sublist where they become subject to eviction.
 
 
 ## Importance of spatial locality

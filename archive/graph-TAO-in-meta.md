@@ -20,22 +20,22 @@ keywords: association, graph, multi region consistency
 MySQL InnoDB storage engine utilized buffer pool algorithm to efficiently manage disk-based data. The buffer
 pool caches frequently accessed data and indexed in memory to minimize disk I/O operations. The algorithm based
 on the Spatial Locality principal, which assumes that there is a high likelihood of accessing data near a 
-recently accessed piece of data. This pattern is observed in many traditional applications,where the buffer pool
+recently accessed piece of data. This pattern is observed in many traditional applications, where the buffer pool
 algorithm proves to be very effective.
 
-However, workload of social services dose not always validate this assumption. The request pattens in social
+However, workload of social services does not always validate this assumption. The request pattens in social
 services exhibit a different kind of locality known as Temporal Locality. Temporal Locality implies that data
 that has been recently created or modified is more likely to be accessed again. For instance, in a social
 network, users tend to access the most recent posts or news feed items more frequently.
 
-In such patters, the temporal order of data is more critical than the spatial arrangement. Therefore, buffer
-pool algorithm are not optimized for there types of request patters. Social services, in particular, exhibit
-characteristics suc as:
-1. High access frequently to recent data
+In such patterns, the temporal order of data is more critical than the spatial arrangement. Therefore, buffer
+pool algorithm are not optimized for there types of request patterns. Social services, in particular, exhibit
+characteristics such as:
+1. High access frequency to recent data
    - Users are more interested in the latest content, leading to frequent access to data that has been recently
    created. This means a high frequency of access to a small subset of the entire dataset.
 2. Many requests for non-existent relationships
-   - Queries about whether a user likes a specific story are likely to be false in most cases. There queries
+   - Queries about whether a user likes a specific story are likely to be false in most cases. These queries
    necessitate fetching data into memory even when there are no results, wasting cache space and reducing the
    overall hit rate.
 
