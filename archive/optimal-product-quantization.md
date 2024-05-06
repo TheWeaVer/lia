@@ -29,6 +29,33 @@ With the quantization, we can make a uniformly distributed fashion like the abov
 
 ### Vector Quantization
 
+The vector quantization method has two ways for ANN.
+
+- to build inverted indxing for non-exhaustive search
+- to encode vectors into compact codes for exhaustive search
+
+The first method has k-means method and its variants. For example, we can build the clusters of the given vector points, so that we can obtain the inverted index of the vectors. Also, we can store the quantized vectors as the centroids of the clusters (more generally it is called as codewords).
+
+| Vector | Cluster Index |
+|-|-|
+| (1, 1) | 0 |
+| (0, 0) | 1 |
+| ... | ... |
+
+| Index | Centroids |
+|-|-|
+| 0 | (2, 2) |
+| 1 | (-1, -1) |
+| ... | ... |
+
+Then we can obtain the most similar vector as following steps.
+
+1. Using the centroids, get the $k$ indices of clusters to search.
+2. Using the inverted index table, get the vectors to search.
+3. Find the most similar vector among the vectors.
+
+But the product quantization is more better to solve the ANN problem with the exponentially large number of codewords.
+
 ### Product Quantization
 
 ### Optimized Product Quantization
