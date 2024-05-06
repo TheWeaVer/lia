@@ -16,6 +16,8 @@ interface ChordProtocol<Id, Value> {
 
     fun getValue(to: ChordNode<Id>, id: Id): Value
 
+    fun removeValue(to: ChordNode<Id>, id: Id)
+
     fun notify(from: ChordNode<Id>, to: ChordNode<Id>)
 
     fun findSuccessorNode(via: ChordNode<Id>, id: Id): ChordNode.NetworkNode<Id>

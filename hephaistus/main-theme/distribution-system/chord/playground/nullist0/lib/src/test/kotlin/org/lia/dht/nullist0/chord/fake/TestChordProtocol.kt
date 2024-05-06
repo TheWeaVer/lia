@@ -50,4 +50,8 @@ class TestChordProtocol(
     override fun healthCheck(to: ChordNode<UByte>): Boolean {
         return mutableNoteToDataMap[to] != null
     }
+
+    override fun removeValue(to: ChordNode<UByte>, id: UByte) {
+        TODO("Not yet implemented")
+    }
 }
