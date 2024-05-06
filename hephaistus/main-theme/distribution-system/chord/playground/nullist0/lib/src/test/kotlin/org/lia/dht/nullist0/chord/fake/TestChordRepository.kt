@@ -15,4 +15,8 @@ class TestChordRepository(
         val value = checkNotNull(mutableDataSet[id])
         return ChordNode.DataNode(id, value)
     }
+
+    override fun removeData(id: UByte) {
+        TODO("Not yet implemented")
+    }
 }
