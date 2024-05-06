@@ -19,7 +19,7 @@ Thus the nearest vector is $v_1 = (1, 1)$.
 
 ## ANN (Approximate nearest neighbor)
 
-One of the solution of NN problem is ANN. ANN is an approximated nearest neighbor search. As the previous example, which is called BruteForce NN solution, if there is a $D$-dimensional vector set $V$ and its cardinarity is $N$, then the complexity is $O(D*N)$. For example, if there is a $100$-dimensional vector space $V$ and it has its cardinary of $1e9$, then one query for this space has $1e12$ operations. This is too many operations to query. So the ANN is more perferred way to query to the vector database.
+One of the solution of NN problem is ANN. ANN is an approximated nearest neighbor search. As the previous example, which is called BruteForce NN solution, if there is a $D$-dimensional vector set $V$ and its cardinarity is $N$, then the complexity is $O(DN)$. For example, if there is a $100$-dimensional vector space $V$ and it has its cardinary of $1e9$, then one query for this space has $1e12$ operations. This is too many operations to query. So the ANN is more perferred way to query to the vector database.
 
 ## Quantization
 
@@ -29,12 +29,25 @@ With the quantization, we can make a uniformly distributed fashion like the abov
 
 ### Vector Quantization
 
-The vector quantization method has two ways for ANN.
+More generally, we can define the idea of solution can be defined as the below constraint problem.
+
+> Let $x$ be a $D$-dimensional vector $V$ and a finite set of codewords $C= \{c_j\}$ with the index set $J$, is called as a codebook. Then we hope to construct a function $dec \circ enc: V \to V$, called quantizer. The $dec: C \to V$ and $enc: V \to C$ are called as a decoder and an encoder, respectively.  
+> We hope that the quantizier to minimize the quantization distortion $E = \frac{1}{N} \sum_x{\|x - dec(enc(x))\|}$ where $N$ is the size of vector set.
+
+The vector quantization method has to define three things.
+
+- The way to build codebook.
+- The way to calculate $enc$
+- The way to calculate $dec$
+
+The first thing is separated as below.
 
 - to build inverted indxing for non-exhaustive search
 - to encode vectors into compact codes for exhaustive search
 
-The first method has k-means method and its variants. For example, we can build the clusters of the given vector points, so that we can obtain the inverted index of the vectors. Also, we can store the quantized vectors as the centroids of the clusters (more generally it is called as codewords).
+#### Inverted indexing - k-means
+
+With this method, we usually use k-means method and its variants. For example, we can build the clusters of the given vector points, so that we can obtain the inverted index of the vectors. Also, we can store the quantized vectors as the centroids of the clusters being as codebook.
 
 | Vector | Cluster Index |
 |-|-|
@@ -54,9 +67,20 @@ Then we can obtain the most similar vector as following steps.
 2. Using the inverted index table, get the vectors to search.
 3. Find the most similar vector among the vectors.
 
+For shortly, we will define codebook and functions using k-means from the problem definition.
+
+- codebook = the set of centroids of clusters
+- $enc(x)$ = the pair of the most nearest point of codebook from $x$ and $x$.
+- $dec(c, x)$ = the most nearest point from $x$ in the cluster of having the centroid $c$. 
+
 But the product quantization is more better to solve the ANN problem with the exponentially large number of codewords.
 
-### Product Quantization
+#### Compact codes - Product Quantization
+
+The vector qunatization is the idea of reducing the search space, but the idea of product quantization is to reduce the vector space dimension itself. How we do this?
+
+1. Decompose the original vector space into the $M$-dimensinal sub-spaces.
+2. Qunatize each subspace into $k$ codewords.
 
 ### Optimized Product Quantization
 
