@@ -113,3 +113,8 @@
 - 실시간 데이터 처리
   - 실시간 데이터 처리 기능이 필요한 경우, VectorDB가 이를 지원하는지 확인
   - 실시간으로 데이터를 인덱싱하고 검색 결과를 제공할 수 있는지 평가해야 함.
+
+
+# 참조
+- https://www.elastic.co/kr/blog/why-technology-leaders-need-vector-search
+- https://www.aeca.ai/ko/blog/posts/2023-09-14-why-we-need-vector-search

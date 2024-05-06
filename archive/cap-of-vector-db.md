@@ -7,6 +7,14 @@
 - Availability: The ability to always return a valid response when a request is received. All systems aim for high availability using various replication mechanisms and failover strategies.
 - Partition Tolerance: The ability for the system to continue operating despite network partitions. All systems provide high partition tolerance based on a distributed architecture.
 
+# Why is the CAP theorem not all satisfactory?
+
+- "C, A, P are all considered characteristics of a distributed system, but in reality, this is not the case.
+- It might feel like one can give up P and choose C and A, but P is a mandatory condition.
+- If you choose not to opt for P, you must have a network that never fails, but no such network exists in this world.
+- Whether you like it or not, P must be chosen, and ultimately the choice is between C or A.
+- In other words, in a distributed system, during a network failure, you can only choose either consistency or availability, but not both."
+
 # How VectorDBs Achieve These
 | VectorDB | Consistency | Availability | Partition Tolerance |
 | --- | --- | --- | --- |
@@ -28,3 +36,7 @@
 - Durability: In case of a database system crash, WAL ensures that all changes after the last known safe point can be recovered, meeting the database's durability requirements.
 - Data Recovery: After a system failure, WAL can be used to recover the database to a reliable and consistent state.
 - Performance Improvement: Using WAL allows database write operations to be recorded sequentially in a log file, which is more efficient than random disk access, providing performance benefits, especially in write-heavy applications.
+
+# Reference
+- http://eincs.com/2013/07/misleading-and-truth-of-cap-theorem/
+- https://www.ibm.com/kr-ko/topics/cap-theorem

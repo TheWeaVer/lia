@@ -114,3 +114,7 @@
 - **Real-Time Data Processing**
   - If real-time data processing capabilities are necessary, ensure that VectorDB supports it.
   - Evaluate the ability to index data and provide search results in real time.
+
+# Reference
+- https://www.elastic.co/kr/blog/why-technology-leaders-need-vector-search
+- https://www.aeca.ai/ko/blog/posts/2023-09-14-why-we-need-vector-search
