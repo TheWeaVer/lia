@@ -76,7 +76,7 @@ class FindSuccessorByIdTest {
     }
 
     @Test
-    fun testFindSuccessorById_twoNodes_with_otherNode_dataNode_myNode() = runTest {
+    fun testFindSuccessorById_twoNodesOfMyNodeHavingLargeId() = runTest {
         // when
         val myNode = ChordNode.NetworkNode<UByte>("my").let { it.copy(successor = it) }
         val otherNode = ChordNode.NetworkNode<UByte>("other").let { it.copy(successor = it) }
@@ -118,7 +118,7 @@ class FindSuccessorByIdTest {
 
 
     @Test
-    fun testFindSuccessorById_twoNodes_with_myNode_dataNode_otherNode() = runTest {
+    fun testFindSuccessorById_twoNodesOfMyNodeHavingSmallId() = runTest {
         // when
         val myNode = ChordNode.NetworkNode<UByte>("my").let { it.copy(successor = it) }
         val otherNode = ChordNode.NetworkNode<UByte>("other").let { it.copy(successor = it) }
