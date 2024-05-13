@@ -29,7 +29,7 @@ With the quantization, we can make a uniformly distributed fashion like the abov
 
 ### Vector Quantization
 
-More generally, we can define the idea of solution can be defined as the below constraint problem.
+More generally, we can define the idea of solution as the below constraint problem.
 
 > Let $x$ be a $D$-dimensional vector $V$ and a finite set of codewords $C= \{c_j\}$ with the index set $J$, is called as a codebook. Then we hope to construct a function $dec \circ enc: V \to V$, called quantizer. The $dec: C \to V$ and $enc: V \to C$ are called as a decoder and an encoder, respectively.  
 > We hope that the quantizier to minimize the quantization distortion $E = \frac{1}{N} \sum_x{\|x - dec(enc(x))\|}$ where $N$ is the size of vector set.
