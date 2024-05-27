@@ -1,88 +1,120 @@
-# Vector DB
 
-## Why is vector search important in a search system?
+# VectorDB
 
-- To Provide similarity search, especially among advanced search features
+## Why is Vector Search Important in Search Systems?
 
-## Why is similarity search important?
+- **Improvement of Similarity Search**
+  - Transform various types of data into high-dimensional vectors for processing
+  - Significantly enhances the accuracy and relevance of search results.
+- **Providing Personalized and Customized Experiences**
+- **Handling Various Data Types**
+- **Efficient Information Retrieval**
+  - Quickly find similar items within a dataset
 
-- In an image search, find images similar to a particular image.
-- In a text search, find similar documents in context. 
-- It is important in connection with the user experience.
-  - ex) When deliver chocolate on Valentine's Day, you can buy heart-shaped chocolate regardless of the chocolate brand.
+## Why is Similarity Search Important?
 
-## What is Vector?
+- Users can find images similar to a specific image in image searches.
+- Users can find documents contextually similar in text searches.
+- This plays an important role connected to user experience.
+  - For example, when delivering chocolates on Valentine's Day, regardless of the chocolate brand, purchasing heart-shaped chocolates.
+- Also, a personalized recommendation system can be implemented alongside.
 
-- Vector is used to represent points in space and can have multiple dimensions.
-- Transforming text, images, videos, etc. into high-dimensional vectors for understanding.
-- The transformation process usually uses machine learning algorithms.
+## What is a Vector?
 
-## What is Vector DB?
+- A vector is used to represent a point in space and can have multiple dimensions.
+- Data such as text, images, and videos can be transformed into high-dimensional vectors for understanding.
+- The transformation process typically uses machine learning algorithms like deep learning models.
 
-- Vector DB that can store, manage, and retrieve high-dimensional vectors.
-- Vector DB optimizes for similar vectors.
+## What is VectorDB?
 
-## Why Vector DB is needed
+- A database that stores, manages, and searches high-dimensional vectors.
+- VectorDB is optimized for similarity search.
 
-- Real-time similarity searches on large datasets require special technology.
-- Traditional database systems are not optimized for vector search.
+## The Necessity of VectorDB
 
-## How Vector DB Works and Key Features
+- Special technology is needed to perform similarity search in real-time within large datasets.
+- Traditional database systems are not optimized for this type of search.
 
-### Key Features
-- Vector Indexing
-  - Use special indexing techniques to effectively store and retrieve high-dimensional vector data.
-  - ex) Approximate Nearest Neighbor(ANN)
-- Search for similarity
-  - When the user provides a query vector, the Vector DB quickly finds the vectors most similar to this query vector among the stored vectors.
-  - This process can be performed by special search algorithms, such as ANN, and similar items can be found on large datasets at very high speeds.
-- Data segmentation and distribution processing
-  - To effectively manage large vector datasets, Vector DB can split and store data across multiple nodes.
-- Provides intuitive API
-  - Most Vector DBs provide intuitive APIs that make it easy for users to insert, query, and modify data.
-  - Developers can easily implement interactions between applications and Vector DB using this API
+## How Does VectorDB Work and Its Key Features?
 
-### **Vector Data Processing Process**
+- **Vector Indexing**
+  - Special indexing techniques are used to effectively store and search high-dimensional vector data.
+  - Approximate Nearest Neighbor (ANN) algorithm.
+- **Similarity Search**
+  - When users provide a query vector, the Vector DB quickly finds the vectors most similar to this query stored in the database.
+  - This process can be carried out by the ANN search algorithm and can find similar items very quickly even in large datasets.
+- **Data Partitioning and Distribution**
+  - To effectively manage large vector datasets, Vector DB can partition and distribute data across multiple nodes.
+- **Intuitive API Provided**
+  - Most Vector DBs provide an intuitive API that allows users to easily insert, query, and modify data.
+  - Developers can use this API to easily implement interactions between applications and Vector DB.
 
-1. **Data Preparation**: Transforms the original data (text, images, etc.) into vector form; this is usually done using machine learning models.
-2. **Insert Data**: Insert the transformed vector into the Vector DB, where the indexing algorithm is used to store the data efficiently.
-3. **Run a similarity search**: When a user submits a query, the Vector DB finds and returns a vector similar to the query in the database.
-4. **Evaluation and Coordination of Results**: Based on the search results, you can adjust the indexing method or query processing method if necessary to improve the search quality.
+### **Vector Data Processing Steps**
 
-## Vector DB Solution
+1. **Data Preparation**: Original data (text, images, etc.) is converted into vector form. This process is typically performed using a machine learning model.
+2. **Data Insertion**: The transformed vectors are inserted into Vector DB. At this time, indexing algorithms are used to efficiently store the data.
+3. **Executing Similarity Search**: When users submit a query, Vector DB finds and returns vectors similar to the query from the database.
+4. **Evaluation and Adjustment of Results**: Based on the search results, if necessary, indexing methods or query processing techniques can be adjusted to improve search quality.
 
-- Milvus, Weaviate, Vespa, Faiss
+## VectorDB Solutions
+- **Milvus**
+  - Open-source vector database
+  - Efficiently processes and searches large vector datasets
+  - Flexible and scalable, supports Approximate Nearest Neighbor (ANN) search algorithms
+- **Faiss (Facebook AI Similarity Search)**
+  - A library developed by Facebook
+  - Designed for fast searching of large amounts of vector data
+  - Especially provides high performance in clustering and similarity searches
+- **Weaviate**
+  - An open-source vector search engine that supports GraphQL API
+  - Uses machine learning models to index vectorized data for natural language understanding and provides semantic search capabilities
+- **Vespa**
+  - An open-source engine developed by Yahoo
+  - Processes large-scale distributed data in real-time and offers personalized recommendations and search functionalities
+  - Supports both vector and text searches
+- **Pinecone**
+  - A solution that easily manages and scales large vector databases
+  - Performs similarity searches in real-time, uses machine learning models to optimize and manage data
+- **Annoy (Approximate Nearest Neighbors Oh Yeah)**
+  - A library developed by Spotify
+  - Provides fast search performance while efficiently using large memory
 
-### **Vector DB Use Cases**
+### **Use Cases for VectorDB**
+- **Image and Video Search**
+  - When users upload an image, the system finds similar images or videos from the database. Useful in shopping, digital asset management, surveillance systems, etc.
+- **Natural Language Processing and Document Search**
+  - Converts text data into vectors to find documents with similar topics or contexts. Applicable to customer support systems, knowledge management systems, legal and research document searches, etc.
+- **Recommendation Systems**
+  - Analyzes users' preferences, past behaviors, and other users' data to recommend personalized products or content.
+  - A vital feature for online shopping, streaming services, and social media platforms.
 
-- Search for images and videos
-  - When a user uploads an image or video, the system finds an image or video similar to that image in a database.
-  - This can be useful in shopping, digital asset management, surveillance systems, etc.
-- Natural language processing and document retrieval
-  - An application that converts text data into vectors to find documents with similar topics or contexts.
-  - This can be applied to customer support systems, knowledge management systems, legal and research document retrieval, etc
-- Recommendation System
-  - It analyzes users' preferences, previous behavior, and other users' data to recommend personalized products or content.
-  - This is an important feature in online shopping, streaming services, social media platforms, and more
+### **Considerations When Implementing VectorDB**
 
-### **Considerations for introducing Vector DB**
+- **Performance and Scalability**
+  - Important considerations when large amounts of data and high-speed processing are required.
+  - Ensure that the chosen VectorDB solution meets these requirements.
+- **Maintenance and Support**
+  - If choosing an open-source solution, consider community support and the quality of documentation.
+  - If considering a commercial solution, review technical support and service level agreements (SLAs).
+- **Data Security and Privacy**
+  - Compliance with data security and privacy regulations is crucial when processing user data.
+  - It is important to ensure that the chosen VectorDB solution meets these requirements.
+- **Tools for Developers and Administrators**
+  - A dashboard or platform that provides tools for more effective management and monitoring of VectorDB is necessary.
+- **Cost**
+  - Consider the total cost of ownership for implementing and operating a VectorDB.
+  - Includes hardware, software licenses, maintenance, and administrative costs.
+  - If choosing a cloud-based solution, review service pricing models and traffic costs.
+- **Technical Support and Community**
+  - Assess the level of active technical support and documentation provided.
+  - If choosing an open-source solution, ensure there is support from an active community.
+  - If considering a commercial solution, review the provider's technical support services and SLAs.
+- **Integration and Compatibility**
+  - Ensure compatibility with existing IT infrastructure, databases, and applications, and necessary API support and data format compatibility.
+- **Real-Time Data Processing**
+  - If real-time data processing capabilities are necessary, ensure that VectorDB supports it.
+  - Evaluate the ability to index data and provide search results in real time.
 
-- Performance and Scalability
-  - Performance and scalability are critical considerations when large amounts of data and high-speed processing are required.
-- Maintenance and Support
-  - Consider community support and document quality when choosing an open source solution
-  - Review technical support and service level agreements (SLA) when considering commercial solutions.
-- Data security and privacy
-  - You must comply with data security and privacy regulations when processing user data.
-  - It is important to ensure that the Vector DB solution you select meets these requirements.
-
-### **Best practice for Vector DB**
-
-- Data Quality Management
-  - **Data preprocessing**: Before converting the data into a vector, it is necessary to check the quality of the data and perform the necessary preprocessing operations (e.g., noise removal, normalization). Because high quality data greatly improves the accuracy of search results.
-- Model selection and tuning
-  - **Feature extraction model**: Models used to transform data into vectors (e.g., deep learning models) must be carefully selected and tuned to the data and use cases. The performance of the model directly affects the accuracy of vector search.
-- Indexing strategy
-  - **Select the appropriate indexing algorithm**: Select an indexing algorithm that fits the characteristics of the data and search requirements; indexing efficiency plays an important role in the speed of search and the scalability of the system.
-- Monitoring and Coordinating Performance
-  - **Performance Monitoring**: Continuously monitor the performance of the system and track indicators such as search speed, accuracy, system load, etc. Identify the cause of the degradation and can improve.
+# Reference
+- https://www.elastic.co/kr/blog/why-technology-leaders-need-vector-search
+- https://www.aeca.ai/ko/blog/posts/2023-09-14-why-we-need-vector-search
