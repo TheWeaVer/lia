@@ -1,7 +1,7 @@
 # Introduction
 
 This article summarize OAuth 2.0 with Bearer Token ([RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749) /
-https://datatracker.ietf.org/doc/html/rfc6750) and [OpenID Connect](https://openid.net/). 
+[RFC 6750](https://datatracker.ietf.org/doc/html/rfc6750)) and [OpenID Connect](https://openid.net/). 
 
 
 # OAuth 2.0
@@ -76,7 +76,7 @@ TBD
 
 ## Relation between OAuth (OAuth 2.0) and OIDC (OpenID Connect)
 
-OIDC run on OAuth, which means when the Client request to get authorization grant with the `open_id` scope and 
+OIDC runs on OAuth, which means when the Client request to get authorization grant with the `open_id` scope and 
 Authorization server authenticate with scope with oauth authorization flow. Finally, ID Token is issued with
 access token. 
 
