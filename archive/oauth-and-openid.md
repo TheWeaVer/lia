@@ -170,7 +170,7 @@ themselves. Therefore, some of the security considerations are recommended to mi
 3. Don't store bearer tokens in cookies
 4. Issue short-lived and scoped bearer tokens
 
-There are three ways to create authenticated request. Please note that Client MUST NOT user more than one method
+There are three ways to create authenticated request. Please note that Client MUST NOT use more than one method
 to transmit the token in each request.
 
 1. Authorization Request Header
