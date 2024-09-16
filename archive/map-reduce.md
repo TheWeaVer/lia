@@ -19,7 +19,7 @@ After Google implemented hundreds of such programming models, they made an abstr
 
 The programming model can be defined as the input and output of its execution. There are three execution model on Map-reduce model, that are the full program, map function and reduce function.
 
-- Full execution
+- A computation
   - Input: a set of key/value pair
   - Output: a set of key/value pair
 - Map: the function of producing intermediate key/value pair
