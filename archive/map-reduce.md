@@ -24,7 +24,7 @@ The programming model can be defined as the input and output of its execution. T
   - Output: a set of key/value pair
 - Map: the function of producing intermediate key/value pair
   - Input: a key/value pair
-  - Output: a set of key/value pair
+  - Output: a set of intermediate key/value pairs
 - Reduce: the function of producing intermediate key/value pair
   - Input: an intermediate key I and a set of values for that key.
   - Output: the desired ouput on the given intermediate key I
@@ -34,7 +34,7 @@ With pseudocode, we can write as below. The specific implementation needs to be 
 def program(input: Pair<K, V>): Output<K, O>
   do 
 
-def map(input: Pair<K, V>): Set<Intermediates<T, W>>
+def map(input: Pair<K, V>): Set<Intermediate<T, W>>
   do
 
 def reduce(key: T, intermediates: Set<Intermediate<T, W>>): Output<K, O>
