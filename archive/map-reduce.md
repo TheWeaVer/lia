@@ -106,9 +106,46 @@ def reduce(key: T, intermediates: Set<Intermediate<T, W>>): Output<K, O>
   do user defined reduce process
 ```
 
-## Data structures on master
+### Data structures on master
 
-WIP
+The master should keep below data structures.
+
+- The state for each map and reduce tasks.
+- The identity of the worker machine for each map and reduce tasks.
+- The $R$ intermediate files for each completed map tasks. (These files will be piped to the in-progress reduce
+  tasks incrementally).
+
+For more example, the master can store them in json like below.
+
+```json
+{
+  "tasks": [
+    {
+      "task": "map-1",
+      "state": "in-progress",
+      "worker": "worker-1"
+    },
+    {
+      "task": "map-2",
+      "state": "completed",
+      "worker": "worker-2"
+    },
+    {
+      "task": "reduce-1",
+      "state": "idle",
+      "worker": "undefined"
+    }
+  ],
+  "files": [
+    {
+      "location": "/user/var/xxx",
+      "from": "map-2",
+      "to": "reduce-1",
+      "size": "3000"
+    }
+  ]
+}
+```
 
 ## Fault Tolerance
 
