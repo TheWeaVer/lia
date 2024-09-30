@@ -147,9 +147,26 @@ For more example, the master can store them in json like below.
 }
 ```
 
-## Fault Tolerance
+### Fault Tolerance
 
-WIP
+The MapReduce calculation has multiple machines. The distributed computation can be failed.
+
+- The worker machine failure
+- The master machine failure
+
+Google prevent such failures using below implementations.
+
+- The worker machine failure
+    - The master pings every worker periodically, and consider the worker as failure when it does not response.
+    - Restoration policy
+        - Failed in-progressing reduce/map worker: Re-execute the worker.
+        - Failed completed map worker: Re-execute the worker when the result is in-accessible. The reduce task
+          will be notified if the machine does not read the result of the failed task.
+        - Failed completed reduce worker: No re-execution because it will save result to a global file.
+- The master machine failure
+    - The master saves the status represented by the data structure defined above periodically. This is similar
+      to the database transaction restoration.
+    - Restoration policy: The master loads the status and restore its state.
 
 ## Locality
 
