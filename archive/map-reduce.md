@@ -214,9 +214,20 @@ guides.
     - A task time between 5 and 15 minutes
     - Creates the fewest files possible
 
-## Backup tasks
+### Backup tasks
 
-WIP
+The MapReduce can have a large time to complete, because of "straggler". The straggler is a machine that takes
+an unusually long time to complete one of the last few map or reduce tasks in the computation. They appears
+because of lots of reasons. For example,
+
+- Bad disk causes bit correction algorithm.
+- Competition for CPU, memory, local disk, or network bandwidth
+- Bugs on machine initialization code
+
+Google has a general mechanism to alleviate the problem of stragglers, that is the backup tasks. When the
+MapReduce operation is close to completion, the master schedules backup executions of the remaining in-progress
+tasks. A task is marked as completed if the primary or backup execution completes. This heuristic solution
+reduces 44% of the execution time.
 
 # Refinements
 
