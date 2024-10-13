@@ -180,9 +180,39 @@ The second thing will help the MapReduce restore using locality. On the failure 
 schedule the machine near a replica of that task's input data. So the most input data will be read locally and
 consume no network bandwidth.
 
-## Task Granularity
+### Task Granularity
 
-WIP
+The MapReduce has three parameters with tasks.
+
+- the number of map tasks: $M$
+- the number of reduce tasks: $R$
+- the number of worker machines: $W$
+
+Ideally, $M \gg W$ and $R \gg W$ are needed. It will improve
+
+- the dynamic load balancing, and
+- the speed of recovery on failure.
+
+But too many tasks will reduce the framework overhead. This is theoretical approach. With the Google
+implementation, there are practical bounds on how $M$ and $R$.
+
+- There are $O(M + R)$ scheduling decisions on master.
+- There are $O(M * R)$ states on memory of master.
+
+Also, there are some heuristics on Google's implementation.
+
+- The input data is roughly from 16MB to 64MB.
+- The $R$ is a small multiple of $W$.
+
+Google often uses $M = 200,000$, $R = 5,000$, $W = 2,000$. Moreover, from the Hadoop's documents, there are some
+guides.
+
+- The number of map tasks
+    - It is determined by the size of split of input size. By default, it is 128MB.
+- The number of reduce tasks
+    - A multiple of the block size
+    - A task time between 5 and 15 minutes
+    - Creates the fewest files possible
 
 ## Backup tasks
 
