@@ -168,9 +168,17 @@ Google prevent such failures using below implementations.
       to the database transaction restoration.
     - Restoration policy: The master loads the status and restore its state.
 
-## Locality
+### Locality
 
-WIP
+As we know, the network communication has disadvantage of speed and bandwidth usage. Google uses the local
+storage of each machine to reduce the usage of network. More detail, GFS(Google file system) will
+
+- divide the input data into 64MB blocks, and
+- store several copies of each block on different machines.
+
+The second thing will help the MapReduce restore using locality. On the failure of a map task, the master will
+schedule the machine near a replica of that task's input data. So the most input data will be read locally and
+consume no network bandwidth.
 
 ## Task Granularity
 
