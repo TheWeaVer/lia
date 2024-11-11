@@ -168,6 +168,9 @@ Google prevent such failures using below implementations.
       to the database transaction restoration.
     - Restoration policy: The master loads the status and restore its state.
 
+Above contents are the fault tolerance of stateless jobs. The original paper is also introducing about the fault
+tolerance of stateful jobs. Please refer the original paper.
+
 ### Locality
 
 As we know, the network communication has disadvantage of speed and bandwidth usage. Google uses the local
