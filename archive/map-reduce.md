@@ -232,9 +232,62 @@ MapReduce operation is close to completion, the master schedules backup executio
 tasks. A task is marked as completed if the primary or backup execution completes. This heuristic solution
 reduces 44% of the execution time.
 
-# Refinements
+## Refinements
 
-WIP
+We can use basic implementation of MapReduce, but there are a few extensions useful. We will introduce 9 tools.
+
+1. Partitioning function
+2. Ordering guarantees
+3. Combiner function
+4. Input and output types
+5. Side-effect
+6. Skipping bad records
+7. Local execution
+8. Status information
+9. Counters
+
+### Partitioning function: Save result of the desired keys to on same output file
+
+- Requirement: Specific results of reduce work need to be saved on the same output file.
+- Solution: Use specific partitioning function to distribute the result by the specific partition.
+
+The users of MapReduce can define the parameters, that are `the number of reduce tasks`(i.e.
+`the number of output files`). Let define this as $R$. We can use $hash(key) \mod R$ as a partitioning function
+in general cases. But we may need to define a specific function.
+
+For example, we hope to calculate a rank of a website using MapReduce. If we use general partitioning function,
+the result of many sites of a same host will be distributed to $R$ output files. But it is better to collect the
+result of many sites of a same host on an output file. In this case, the function, which is
+$hash(hostname(URL)) \mod R$, will satisfy the requirement.
+
+### Ordering guarantees: Sorting of result
+
+- Requirement: Find the result of reduce task by given key quickly.
+- Solution: Use ordered result by key and use binary search.
+
+In Google, the intermediate key-value pairs have same ordering with original keys sorted in ascending order.
+This ensures the results to have same increasing order. As the result, we can find desired result using binary
+search instead of sequential search.
+
+### Combiner function: Make intermediate key-value pairs be smaller
+
+- Requirement: Decrease the size of intermediate key-value pairs if we can.
+- Conditions
+    - Many repetition of intermediate key-value pairs exists.
+    - Reduce function is commutative and associative.
+- Solution: Add a new function Combiner function on the Map task.
+
+Like the word counter, we can construct as below
+
+- Map function to provide a set of intermediate key-value pairs as <word, 1>
+- Reduce function to provide a key-value of <word, # of words>
+
+We can predict many same intermediate key-value pairs are generated, like <"a", 1>. Before starting a Reduce
+task, we can decrease the size by the Combiner function.
+
+> Combiner function: a function to be executed on each machine that performs a map task. It may have the same
+> code with the Reduce task. Unlike the Reduce task, it will write on an intermediate file rather than an output
+> file.
 
 # Reference
 
