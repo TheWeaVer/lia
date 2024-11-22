@@ -426,6 +426,92 @@ class WordCountMapper : Mapper() {
 }
 ```
 
+## Performance
+
+Let me summarize the testing result only. For the detailed performance configuration and implementation, please
+check the original paper.
+
+There are two computation performance result.
+
+- Grep search on 1e+10 100-byte records for a relatively rare three-character pattern
+- Sort 1e+10 100-byte records.
+
+### Cluster Configuration
+
+- The number of machines: about 1,800
+- CPU on each machine: two 2GHz Intel Xeon processor with enabled HyperThreading feature
+- Memory on each machine: 4GB
+- Disks on each machine: two 180GB IDE disk
+- Network link: gigabit Ethernet link
+- Network topology: two-level tree-shaped switched network
+- Network bandwidth: about 100-200 Gbps of aggregate bandwidth available at root
+- RTT (round-trip time) on each pair: less than a milliseconds
+
+### Result analysis
+
+The parameters of the MapReduce processing are below.
+
+- The number of Map operation = $M$
+- The number of Reduce operation = $R$
+
+There are two performance index can be comparable
+
+- Peak processing rate per seconds (i.e peak rate)
+- Total execution time
+
+The result of Grep operation is below. But there is no comparison with other algorithms on the original paper.
+
+- Grep
+    - Parameters: $M = 15000, R = 1$
+    - Peak rate = 30GB/s
+    - Total execution time = 150 s
+
+We can find meaningful comparison on the performance of Sort. There are three tests. We can compare the total
+execution time with TeraSort benchmark. Also, please note that the test is constructed as the MapReduce
+operation saves the two same reduced file on the master. It is intended to ensure reliability and availability.
+
+- Common configuration
+    - Parameters: $M = 15000, R = 4000$
+- Sort with normal operation
+    - Total execution time = 891 s (-16% over the TeraSort benchmark)
+- Sort with no backup tasks
+    - Total execution time = 1283 s (+44% over the normal execution time)
+- Sort with killing 200 workers
+    - Total execution time = 933s (+5% over the normal execution time)
+
+Note that the fault tolerance and backup task strategy is efficient on actual operation.
+
+The peak rate is not denoted here because the sorting itself is worked by MapReduce library. Google uses the
+key ordering by the master. So the peak rate of the entire operation is not an actual execution. The paper
+separates steps of MapReduce into three phases. One is input phase which is working on Map workers, another is
+shuffling phase which is working on the master, and the last is output phase which is working on Reduce workers.
+For the detailed analysis, please check the paper. I couldn't understand the meaning of these analysis.
+
+## Experience: Advantages of using MapReduce library
+
+On the Google, the MapReduce is used widely. For example, the below jobs are worked by MapReduce operation.
+
+- large-scale machine learning problems
+- clustering problems for the Google News and Froogle products
+- extraction of data used to produce reports of popular queries
+- extraction of properties of web pages for new experiments and products
+- large-scale graph computations
+
+The MapReduce helps the productivity too. There are advantages.
+
+- The map and reduce are simple programs so speeding up development and prototyping cycle.
+- The programmers who have no experience with distributed and/or parallel system can exploit large amounts of
+  resources easily.
+
+More detailed experience can be found on the Google web search service. Google team get the below advantages.
+
+- The indexing code is simpler, smaller, and easier to understand.
+    - Ex. the size of one phase of the computation dropped from 3800 lines to 700 lines (-82% of lines)
+- The performance of MapReduce library is good enough.
+    - Ex. an operation taking a few months is changed to an operation taking a few days.
+- The indexing process has become much easier to operate.
+- It is easy to improve the performance of the indexing process by adding new machines to the indexing cluster.
+
 # Reference
 
 - https://static.googleusercontent.com/media/research.google.com/ko//archive/mapreduce-osdi04.pdf
