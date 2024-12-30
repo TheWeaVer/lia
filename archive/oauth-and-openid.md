@@ -176,7 +176,8 @@ Values for the error response parameter must not include characters outside the 
 * error: REQUIRED. The error code of the request. be `invalid_request`, `invalid_client`, `invalid_grant`,
   `unauthorized_client`, `unsupported_grant_type` or `invalid_scope`.
 * error_description: Optional. Human-readable text providing addtional information.
-* error_uri: Optional.
+* error_uri: Optional. A URI identifying a human-readable web page with information about the error, used to
+  provide the client developer with additional information about the error.
 
 # Refreshing an Access Token
 
